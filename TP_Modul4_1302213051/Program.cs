@@ -4,36 +4,61 @@ using System;
 
 class KodePos
 {
+    private readonly Dictionary<string, string> kodePos = new Dictionary<string, string>
+    {
+        {"Batununggal", "40266"}, {"Kujangsari", "40287"},
+        {"Mengger", "40267"}, {"Wates", "40256"},
+        {"Cijaura", "40287"}, {"Jatisari", "40286"},
+        {"Margasari", "40286"}, {"Sekejati", "40286"},
+        {"Kebonwaru", "40272"}, {"Maleer", "40274"},
+        {"Samoja", "40273"}
+    };
+
     public string getKodePos(string kelurahan)
     {
-        switch (kelurahan)
+        if (kodePos.TryGetValue(kelurahan, out string kode))
         {
-            case "Batununggal":
-                return "40266";
-            case "Kujangsari":
-                return "40287";
-            case "Mengger":
-                return "40257";
-            case "Wates":
-                return "40256";
-            case "Cijaura":
-                return "40287";
-            case "Jatisari":
-                return "40286";
-            case "Margasari":
-                return "40286";
-            case "Sekejati":
-                return "40286";
-            case "Kebonwaru":
-                return "40272";
-            case "Maleer":
-                return "40274";
-            case "Samoja":
-                return "40273";
-            default:
-                return "Kode Pos Tidak Ditemukan";
-
+            return kode;
         }
+        else
+        {
+            return "Kode Pos Tidak Ditemukan";
+        }
+    }
+}
+
+public class DoorMachine
+{
+    private State state;
+
+    public DoorMachine()
+    {
+        state = State.Locked;
+        Console.WriteLine("Pintu terkunci");
+    }
+
+    public void Lock()
+    {
+        if (state == State.Unlocked)
+        {
+            state = State.Locked;
+            Console.WriteLine("Pintu terkunci");
+        }
+    }
+
+    public void Unlock()
+    {
+        if (state == State.Locked)
+        {
+            state = State.Unlocked;
+            Console.WriteLine("Pintu tidak terkunci");
+        }
+    }
+
+    private enum State
+    {
+        Locked,
+        Unlocked
     }
 }
 
@@ -43,10 +68,20 @@ class Program
     {
         KodePos kode = new KodePos();
 
+        Console.WriteLine("Output Table Driven");
         string kdBatununggal = kode.getKodePos("Batununggal");
         Console.WriteLine("Kode Pos Batununggal : " + kdBatununggal);
         string kdWates = kode.getKodePos("Wates");
         Console.WriteLine("Kode Pos Wates : " + kdWates);
+
+        Console.WriteLine(" ");
+
+        Console.WriteLine("Output State Based");
+        DoorMachine pintu = new DoorMachine();
+        pintu.Lock();
+        pintu.Unlock();
+
+        Console.ReadLine();
     }
 }
 
